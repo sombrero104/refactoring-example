@@ -1,6 +1,6 @@
 package me.sombrero;
 
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.Arrays;
 
 /**
@@ -8,7 +8,7 @@ import java.util.Arrays;
  */
 public class App {
 
-    public static void main( String[] args ) throws ClassNotFoundException, NoSuchFieldException {
+    public static void main( String[] args ) throws ClassNotFoundException, NoSuchFieldException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         /**
          * 클래스 인스턴스 접근 방법 1.
@@ -27,7 +27,7 @@ public class App {
         /*Class<?> aClass1 = Class.forName("me.sombrero.Book");*/
 
 
-        Class<Book> bookClass = Book.class;
+        /*Class<Book> bookClass = Book.class;*/
 
         /*System.out.println("--------------------------------------------------");
         Arrays.stream(bookClass.getFields()).forEach(System.out::println);
@@ -37,7 +37,7 @@ public class App {
         System.out.println(bookClass.getDeclaredField("B"));
         System.out.println("--------------------------------------------------");*/
 
-        Book book = new Book();
+        /*Book book = new Book();*/
 
         /*Arrays.stream(bookClass.getDeclaredFields()).forEach(field -> {
             try {
@@ -82,7 +82,7 @@ public class App {
         /*Arrays.stream(MyBook.class.getAnnotations()).forEach(System.out::println);*/
         /*Arrays.stream(Book.class.getDeclaredAnnotations()).forEach(System.out::println);*/
 
-        Arrays.stream(Book.class.getDeclaredFields()).forEach(field -> {
+        /*Arrays.stream(Book.class.getDeclaredFields()).forEach(field -> {
             Arrays.stream(field.getAnnotations()).forEach(annotation -> {
                 if(annotation instanceof MyAnnotation) {
                     MyAnnotation myAnnotation = (MyAnnotation)annotation;
@@ -90,6 +90,32 @@ public class App {
                     System.out.println(myAnnotation.number());
                 }
             });
-        });
+        });*/
+
+        Class<?> bookClass = Class.forName("me.sombrero.Book2");
+        /*Constructor<?> constructor = bookClass.getConstructor(null);
+        Book2 book2 = (Book2) constructor.newInstance();*/
+        Constructor<?> constructor = bookClass.getConstructor(String.class);
+        Book2 book2 = (Book2) constructor.newInstance("Hello!!");
+        /*System.out.println(book2);*/
+
+        /*Field a = Book2.class.getDeclaredField("A");
+        System.out.println(a.get(null));
+        a.set(null, "Hm......");
+        System.out.println(a.get(null));*/
+
+        /*Field b = Book2.class.getDeclaredField("B");
+        b.setAccessible(true);
+        System.out.println(b.get(book2));
+        b.set(book2, "Nice!!");
+        System.out.println(b.get(book2));*/
+
+        /*Method c = Book2.class.getDeclaredMethod("c");
+        c.setAccessible(true);
+        c.invoke(book2);*/
+
+        Method sum = Book2.class.getMethod("sum", int.class, int.class);
+        int invoke = (int) sum.invoke(book2, 92, 124);
+        System.out.println(invoke);
     }
 }
