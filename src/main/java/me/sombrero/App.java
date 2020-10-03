@@ -67,7 +67,7 @@ public class App {
             System.out.println("- isPrivate: " + Modifier.isPrivate(modifiers));
         });*/
 
-        Arrays.stream(Book.class.getDeclaredMethods()).forEach(method -> {
+        /*Arrays.stream(Book.class.getDeclaredMethods()).forEach(method -> {
             int modifiers = method.getModifiers();
             System.out.println("# method: " + method);
             System.out.println("- getReturnType: " + method.getReturnType().getName());
@@ -77,6 +77,19 @@ public class App {
             Arrays.stream(method.getParameterTypes()).forEach(System.out::print);
             System.out.print(" ");
             System.out.println();
+        });*/
+
+        /*Arrays.stream(MyBook.class.getAnnotations()).forEach(System.out::println);*/
+        /*Arrays.stream(Book.class.getDeclaredAnnotations()).forEach(System.out::println);*/
+
+        Arrays.stream(Book.class.getDeclaredFields()).forEach(field -> {
+            Arrays.stream(field.getAnnotations()).forEach(annotation -> {
+                if(annotation instanceof MyAnnotation) {
+                    MyAnnotation myAnnotation = (MyAnnotation)annotation;
+                    System.out.println(myAnnotation.value());
+                    System.out.println(myAnnotation.number());
+                }
+            });
         });
     }
 }
